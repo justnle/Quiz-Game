@@ -56,9 +56,7 @@ function highScore() {
     'Your final score is: TIME REMAINING'
   );
 
-  submitButton.attr({
-    class: 'btn btn-primary'
-  });
+  submitButton.addClass('btn btn-primary');
 
   $('#high-score-container').prepend(finalScoreInfo);
   $('#high-score-info').append(initialsLabel);
