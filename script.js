@@ -2,8 +2,8 @@
 var questionNum = 0;
 
 // start the quiz by showing the question and hiding intro
-$("#start-button").on("click", function() {
-  $("#quiz-intro").hide();
+$('#start-button').on('click', function() {
+  $('#quiz-intro').hide();
   displayQuestion();
 });
 
@@ -12,20 +12,20 @@ function displayQuestion() {
   var questionTitle = questions[questionNum].question;
   var questionChoices = questions[questionNum].choices;
 
-  $("#questions-choices").html("");
-  $("#question-title").html("<h3>" + questionTitle + "</h3>");
+  $('#questions-choices').html('');
+  $('#question-title').html('<h3>' + questionTitle + '</h3>');
 
   for (var i = 0; i < questionChoices.length; i++) {
     var choice = questionChoices[i];
-    var choiceList = $("<li></li>").text(choice);
-    choiceList.attr("data-index", i);
-    $("#question-choices").append(choiceList);
+    var choiceList = $('<li></li>').text(choice);
+    choiceList.attr('data-index', i);
+    $('#question-choices').append(choiceList);
   }
 }
 
 // allows user to choose answers
-$("#question-choices").click(function(event) {
-  $("#question-choices").html("");
+$('#question-choices').click(function(event) {
+  $('#question-choices').html('');
   var userChoice = event.target.dataset.index;
   var questionAnswer = questions[questionNum].answer;
   questionNum++;
@@ -35,36 +35,33 @@ $("#question-choices").click(function(event) {
     return;
   } else if (userChoice === questionAnswer) {
     displayQuestion();
-    alert("correct!");
+    alert('correct!');
   } else {
     displayQuestion();
-    alert("incorrect!");
+    alert('incorrect!');
   }
 });
 
 function highScore() {
-  $("#question-title").html("<h3>All done!</h3>");
-  $("#question-choices").html("");
+  $('#question-title').html('<h3>All done!</h3>');
+  $('#question-choices').html('');
 
-  var initialsLabel = $("<label>").text("Enter Initials:");
+  var initialsLabel = $('<label>').text('Enter Initials:');
   var initialsInput = $('<input type="name">').attr({
-    id: "high-score-name",
-    class: "form-control",
+    id: 'high-score-name',
+    class: 'form-control'
   });
-  var submitButton = $('<button type="submit">').text("Submit");
-  var finalScoreInfo = $("<div></div>").text(
-    "Your final score is: TIME REMAINING"
+  var submitButton = $('<button type="submit">').text('Submit');
+  var finalScoreInfo = $("<div id='final-score'></div>").text(
+    'Your final score is: TIME REMAINING'
   );
-  
-  finalScoreInfo.css('padding-bottom', '10px');
-  initialsInput.css('margin', '0 10px');
 
   submitButton.attr({
-    class: "btn btn-primary"
+    class: 'btn btn-primary'
   });
 
-  $("#high-score-container").prepend(finalScoreInfo);
-  $("#high-score-info").append(initialsLabel);
-  $("#high-score-info").append(initialsInput);
-  $("#high-score-info").append(submitButton);
+  $('#high-score-container').prepend(finalScoreInfo);
+  $('#high-score-info').append(initialsLabel);
+  $('#high-score-info').append(initialsInput);
+  $('#high-score-info').append(submitButton);
 }
