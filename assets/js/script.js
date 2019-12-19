@@ -3,14 +3,19 @@ var questionNum = 0;
 var highScores = {};
 
 function timer() {
-  var seconds = questions.length * 15;
-  var timer = setInterval(function() {
+  let seconds = questions.length * 15;
+
+  function timerInterval() {
     $('#timer').text('Time: ' + seconds);
     seconds--;
+
     if (seconds < 0) {
       clearInterval(timer);
+      highScore();
     }
-  }, 1000);
+  }
+  let timer = setInterval(timerInterval, 1000);
+  timerInterval();
 }
 
 // start the quiz by showing the question and hiding intro
@@ -78,8 +83,10 @@ function highScore() {
 
   $('#high-score-submit').on('click', function(event) {
     event.preventDefault();
-  
-    var submitInitials = $('#high-score-name').val().trim();
+
+    var submitInitials = $('#high-score-name')
+      .val()
+      .trim();
 
     if (submitInitials === '') {
       return;
@@ -92,4 +99,3 @@ function highScore() {
     location.href = 'highscores.html';
   });
 }
-
