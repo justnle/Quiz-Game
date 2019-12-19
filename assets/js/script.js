@@ -2,9 +2,21 @@
 var questionNum = 0;
 var highScores = {};
 
+function timer() {
+  var seconds = questions.length * 15;
+  var timer = setInterval(function() {
+    $('#timer').text('Time: ' + seconds);
+    seconds--;
+    if (seconds < 0) {
+      clearInterval(timer);
+    }
+  }, 1000);
+}
+
 // start the quiz by showing the question and hiding intro
 $('#start-button').on('click', function() {
   $('#quiz-intro').hide();
+  timer();
   displayQuestion();
 });
 
@@ -80,3 +92,4 @@ function highScore() {
     location.href = 'highscores.html';
   });
 }
+
