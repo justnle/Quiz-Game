@@ -1,11 +1,6 @@
 // variables
 var questionNum = 0;
 var highScores = {};
-// var highScores = [];
-
-$(document).ready(function() {
-  $('#high-scores-display').hide();
-});
 
 // start the quiz by showing the question and hiding intro
 $('#start-button').on('click', function() {
@@ -78,10 +73,6 @@ function highScore() {
       return;
     }
 
-    // highScores.push(submitInitials);
-    // localStorage.setItem('high-scores', highScores);
-
-
     var existing = localStorage.getItem('highScores');
     existing = existing ? JSON.parse(existing) : {};
     existing[submitInitials] = 'fakeScore';
@@ -89,18 +80,3 @@ function highScore() {
     location.href = 'highscores.html';
   });
 }
-
-function storeHighScore() {
-  localStorage.setItem('high-score', JSON.stringify(highScores));
-}
-
-function highScorePage() {
-  // $('#question-title').html('<h3>High Scores</h3>');
-  // $('#question-choices').html('');
-  $('#high-scores-display').show();
-}
-
-// function storeHighScores() {
-//   localStorage.setItem('high-scores', JSON.stringify(highScoresArr));
-// }
-
