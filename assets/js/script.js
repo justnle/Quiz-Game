@@ -1,5 +1,11 @@
 // variables
 var questionNum = 0;
+var highScores = {};
+// var highScores = [];
+
+$(document).ready(function() {
+  $('#high-scores-display').hide();
+});
 
 // start the quiz by showing the question and hiding intro
 $('#start-button').on('click', function() {
@@ -55,11 +61,46 @@ function highScore() {
   var finalScoreInfo = $("<div id='final-score'></div>").text(
     'Your final score is: TIME REMAINING'
   );
-
+  submitButton.attr('id', 'high-score-submit');
   submitButton.addClass('btn btn-primary');
 
   $('#high-score-container').prepend(finalScoreInfo);
   $('#high-score-info').append(initialsLabel);
   $('#high-score-info').append(initialsInput);
   $('#high-score-info').append(submitButton);
+
+  $('#high-score-submit').on('click', function(event) {
+    event.preventDefault();
+  
+    var submitInitials = $('#high-score-name').val().trim();
+
+    if (submitInitials === '') {
+      return;
+    }
+
+    // highScores.push(submitInitials);
+    // localStorage.setItem('high-scores', highScores);
+
+
+    var existing = localStorage.getItem('highScores');
+    existing = existing ? JSON.parse(existing) : {};
+    existing[submitInitials] = 'fakeScore';
+    localStorage.setItem('highScores', JSON.stringify(existing));
+    location.href = 'highscores.html';
+  });
 }
+
+function storeHighScore() {
+  localStorage.setItem('high-score', JSON.stringify(highScores));
+}
+
+function highScorePage() {
+  // $('#question-title').html('<h3>High Scores</h3>');
+  // $('#question-choices').html('');
+  $('#high-scores-display').show();
+}
+
+// function storeHighScores() {
+//   localStorage.setItem('high-scores', JSON.stringify(highScoresArr));
+// }
+
