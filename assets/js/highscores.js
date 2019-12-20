@@ -3,8 +3,11 @@ $(document).ready(function() {
     var scoreInitials = localStorage.getItem('highScores');
     var getScoreInitials = JSON.parse(scoreInitials);
     $('#high-score-names').append(Object.keys(getScoreInitials)[0]);
+    $('#high-score-names').append(Object.values(getScoreInitials)[0]);
 
 });
+
+// make into a list and map over object
 
 // var existingHighScores = localStorage.getItem('high-scores');
 // console.log(existingHighScores);
