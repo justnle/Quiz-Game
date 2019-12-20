@@ -3,7 +3,6 @@ var questionNum = 0;
 var highScores = {};
 
 $(document).ready(function() {
-
   function countdownTimer() {
     let seconds = questions.length * 15;
 
@@ -11,7 +10,7 @@ $(document).ready(function() {
       $('#timer').text('Time: ' + seconds);
       seconds--;
       $('#timer').attr('data-value', seconds);
-      
+
       if (questionNum === 5) {
         clearInterval(timer);
         var timeRemaining = seconds + 1;
@@ -25,7 +24,7 @@ $(document).ready(function() {
     let timer = setInterval(timerInterval, 1000);
     timerInterval();
   }
-  
+
   // start the quiz by showing the question and hiding intro
   $('#start-button').on('click', function() {
     $('#quiz-intro').hide();
@@ -90,11 +89,11 @@ $(document).ready(function() {
       }
     });
   }
-  
+
   function highScorePage(score) {
     $('#question-title').html('<h3>All done!</h3>');
     $('#question-choices').html('');
-    
+
     let initialsLabel = $('<label>').text('Enter Initials:');
     let initialsInput = $('<input type="name">').attr({
       id: 'high-score-name',
@@ -103,16 +102,15 @@ $(document).ready(function() {
     let submitButton = $('<button type="submit">').text('Submit');
     let finalScoreInfo = $("<div id='final-score'></div>").text(
       'Your final score is: ' + score
-      );
-      submitButton.attr('id', 'high-score-submit');
-      submitButton.addClass('btn btn-primary');
-      
-      
-      $('#high-score-container').prepend(finalScoreInfo);
-      $('#high-score-info').append(initialsLabel);
-      $('#high-score-info').append(initialsInput);
-      $('#high-score-info').append(submitButton);
-      
+    );
+    submitButton.attr('id', 'high-score-submit');
+    submitButton.addClass('btn btn-primary');
+
+    $('#high-score-container').prepend(finalScoreInfo);
+    $('#high-score-info').append(initialsLabel);
+    $('#high-score-info').append(initialsInput);
+    $('#high-score-info').append(submitButton);
+
     submitHighScore();
   }
 
