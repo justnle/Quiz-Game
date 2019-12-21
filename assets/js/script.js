@@ -9,7 +9,7 @@ $(document).ready(function() {
     let seconds = questions.length * 15;
 
     function timerInterval() {
-      $('#timer').text('Time: ' + seconds);
+      $('#timer').html('<b>Time</b>: ' + seconds);
       seconds--;
       $('#timer').attr('data-value', seconds);
 
@@ -61,22 +61,26 @@ $(document).ready(function() {
 
       questionNum++;
 
-      if (questionNum === 5) {
+      if (questionNum === 5 && userChoice === questionAnswer) {
+        showCorrect();
+        highScorePage($('#timer').data('value'));
+      } else if (questionNum === 5 && userChoice !== questionAnswer) {
+        showWrong();
         highScorePage($('#timer').data('value'));
       } else if (userChoice === questionAnswer) {
         displayQuestion();
         $('#userAnswer').show();
-        correct();
+        showCorrect();
       } else {
         displayQuestion();
         $('#userAnswer').show();
-        wrong();
+        showWrong();
       }
     });
   }
 
   function highScorePage(score) {
-    $('#userAnswer').empty();
+    // $('#userAnswer').empty();
     $('#question-title').html('<h3>All done!</h3>');
     $('#question-choices').html('');
 
@@ -86,8 +90,8 @@ $(document).ready(function() {
       class: 'form-control'
     });
     let submitButton = $('<button type="submit">').text('Submit');
-    let finalScoreInfo = $("<div id='final-score'></div>").text(
-      'Your final score is: ' + score
+    let finalScoreInfo = $("<div id='final-score'></div>").html(
+      'Your final score is: <b>' + score + '</b>'
     );
     submitButton.attr('id', 'high-score-submit');
     submitButton.addClass('btn btn-primary');
@@ -127,18 +131,12 @@ $(document).ready(function() {
   //   $('#question-title, #question-choices').empty();
   // }
 
-  function wrong() {
-    $('#userAnswer').text('Wrong!');
-    $('#userAnswer')
-      .delay(500)
-      .fadeOut();
+  function showWrong() {
+    $('#userAnswer').text('Wrong!').delay(300).fadeOut();
   }
 
-  function correct() {
-    $('#userAnswer').text('Correct!');
-    $('#userAnswer')
-      .delay(500)
-      .fadeOut();
+  function showCorrect() {
+    $('#userAnswer').text('Correct!').delay(300).fadeOut();
   }
 });
 
@@ -146,3 +144,4 @@ $(document).ready(function() {
 // fix high score page to be a list, append each accordingly
 // make it look nicer
 // clean up code
+// make userAnswer display on high score page
