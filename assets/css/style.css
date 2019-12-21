@@ -11,7 +11,7 @@ html {
     margin: 0 10px;
 }
 
-#userAnswer {
+#user-answer {
     border-top: 1px solid lightgray;
     color: gray;
     font-style: italic;
