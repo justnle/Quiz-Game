@@ -1,23 +1,46 @@
 $(document).ready(function() {
-    // for (var i = 0; i < )
-    var scoreInitials = localStorage.getItem('highScores');
-    var getScoreInitials = JSON.parse(scoreInitials);
-    $('#high-score-names').append(Object.keys(getScoreInitials)[0]);
-    $('#high-score-names').append(Object.values(getScoreInitials)[0]);
+  var highScoresObject = localStorage.getItem('highScores');
 
-});
+  initHighScorePage();
 
-// make into a list and map over object
+  function initHighScorePage() {
+    displayHighScores();
+    clearHighScores();
+    goBack();
+  }
 
-// var existingHighScores = localStorage.getItem('high-scores');
-// console.log(existingHighScores);
+  function displayHighScores() {
+    if (highScoresObject !== null) {
+      var scoreInitials = localStorage.getItem('highScores');
+      var getScoreInitials = JSON.parse(scoreInitials);
+      var highScoreKeys = Object.keys(getScoreInitials);
+      var highScoreValues = Object.values(getScoreInitials);
+      var numberOfHighScores = Object.keys(getScoreInitials).length;
 
-// change to a real url later
-$('#back-button').on('click', function() {
-    location.href = 'index.html';
-});
+      for (var i = 0; i < numberOfHighScores; i++) {
+        var whichHighScoreKey = highScoreKeys[i];
+        var whichHighScoreValue = highScoreValues[i];
+        var highScoreList = $('<li></li>').text(
+          whichHighScoreKey + ' - ' + whichHighScoreValue
+        );
+        highScoreList.addClass(
+          'list-group-item list-group-item-action list-group-item-dark'
+        );
+        $('#high-score-names').append(highScoreList);
+      }
+    }
+  }
 
-$('#clear-button').on('click', function() {
-    localStorage.clear();
-    location.reload();
+  function goBack() {
+    $('#back-button').on('click', function() {
+      location.href = 'index.html';
+    });
+  }
+
+  function clearHighScores() {
+    $('#clear-button').on('click', function() {
+      localStorage.clear();
+      location.reload();
+    });
+  }
 });
