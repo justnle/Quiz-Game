@@ -14,11 +14,11 @@
 <body>
 
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-6">
-                <a href="highscores.html">View Highscores</a>
+        <div class="row bg-dark text-light py-2">
+            <div class="col-6">
+                <a href="highscores.html" class="badge badge-secondary">View Highscores</a>
             </div>
-            <div class="col-md-6 text-right" id="timer">Time: 0</div>
+            <div class="col-6 text-right" id="timer">Time: 0</div>
         </div>
 
         <div class="row text-center justify-content-center pt-5" id="quiz-intro">
@@ -38,16 +38,23 @@
             <div class="col-md-8" id="question-title"></div>
             <div class="col-md-8" id="choices-container">
                 <ol id="question-choices"></ol>
-                <div class="col-md-8" id="userAnswer" style="display: none"></div>
             </div>
             <div class="col-md-8" id="high-score-container">
                 <!-- <form class="form-inline" action="highscores.html" method="POST" id="high-score-form"> -->
-                <form class="form-inline" id="high-score-form">
-                    <div class="form-group justify-content-between" id="high-score-info"></div>
+                    <form class="form-inline" id="high-score-form">
+                        <div class="form-group justify-content-between pb-2" id="high-score-info"></div>
+                        <!-- fix this becoming ugly on smaller screens -->
                     </form>
                 </div>
+                <div class="col-md-8" id="userAnswer" style="display: none"></div>
             </div>
         </div>
+
+        <footer class="footer text-center py-3 bg-dark sticky-footer">
+            <div class="container">
+                <span class="text-muted">Copyright &copy; 2019 Justin Le</span>
+            </div>
+        </footer>
 
     </div>
 
