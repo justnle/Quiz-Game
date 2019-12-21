@@ -22,3 +22,11 @@ html {
     position: absolute;
     width: 100%;
 }
+
+.list-group {
+    list-style: decimal inside;
+}
+
+.list-group-item {
+    display: list-item;
+} 
