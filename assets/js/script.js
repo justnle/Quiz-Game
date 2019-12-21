@@ -9,14 +9,14 @@ $(document).ready(function() {
     let seconds = questions.length * 15;
 
     function timerInterval() {
-      $('#timer').html('<b>Time</b>: ' + seconds);
+      $('#timer-container').html('<b>Time</b>: ' + seconds);
       seconds--;
-      $('#timer').attr('data-value', seconds);
+      $('#timer-container').attr('data-value', seconds);
 
       if (questionNum === 5) {
         clearInterval(timer);
         var timeRemaining = seconds + 1;
-        $('#timer').attr('data-value', timeRemaining);
+        $('#timer-container').attr('data-value', timeRemaining);
       }
       if (seconds < 0) {
         clearInterval(timer);
@@ -63,10 +63,10 @@ $(document).ready(function() {
 
       if (questionNum === 5 && userChoice === questionAnswer) {
         showCorrect();
-        highScorePage($('#timer').data('value'));
+        highScorePage($('#timer-container').data('value'));
       } else if (questionNum === 5 && userChoice !== questionAnswer) {
         showWrong();
-        highScorePage($('#timer').data('value'));
+        highScorePage($('#timer-container').data('value'));
       } else if (userChoice === questionAnswer) {
         displayQuestion();
         $('#userAnswer').show();
@@ -117,7 +117,7 @@ $(document).ready(function() {
       }
       let existing = localStorage.getItem('highScores');
       existing = existing ? JSON.parse(existing) : {};
-      existing[submitInitials] = $('#timer').data('value');
+      existing[submitInitials] = $('#timer-container').data('value');
       localStorage.setItem('highScores', JSON.stringify(existing));
       location.href = 'highscores.html';
     });
