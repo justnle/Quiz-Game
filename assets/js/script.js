@@ -6,6 +6,7 @@ var userSuccess = $('#user-answer');
 var timerContainer = $('#timer-container');
 var wrongAnswer = 0;
 var deductTime = 0;
+var timerScore = 0;
 
 $(document).ready(function() {
   startQuiz();
@@ -28,13 +29,11 @@ $(document).ready(function() {
       if (seconds < 0 && questionNum < 5) {
         clearInterval(timer);
         timerContainer.html('<b>Time</b>: 0');
-        userSuccess.hide();
         highScorePage(0);
       }
       if (seconds < 0) {
         clearInterval(timer);
         timerContainer.html('<b>Time</b>: 0');
-        userSuccessHide();
       }
     }
     let timer = setInterval(timerInterval, 1000);
@@ -77,15 +76,21 @@ $(document).ready(function() {
       questionNum++;
 
       if (questionNum === 5 && userChoice === questionAnswer) {
+        timerScore = timerContainer.data('value');
         showCorrect();
-        highScorePage(timerContainer.data('value'));
+        highScorePage(timerScore);
+        return timerScore;
       } else if (questionNum === 5 && userChoice !== questionAnswer && $('#timer-container').data('value') -11 < 0) {
-        // $('#timer-container').attr('data-value', 0);
+        $('#timer-container').attr('data-value', 0);
+        timerScore = timerContainer.data('value');
         showWrong();
         highScorePage(0);
+        return timerScore;
       } else if (questionNum === 5 && userChoice !== questionAnswer) {
+        timerScore = timerContainer.data('value') - 11;
         showWrong();
-        highScorePage(timerContainer.data('value') - 11);
+        highScorePage(timerScore);
+        return timerScore;
       } else if (userChoice === questionAnswer) {
         displayQuestion();
         userSuccess.show();
@@ -137,7 +142,7 @@ $(document).ready(function() {
       
       let existing = localStorage.getItem('highScores');
       existing = existing ? JSON.parse(existing) : {};
-      existing[submitInitials] = timerContainer.data('value');
+      existing[submitInitials] = timerScore;
       localStorage.setItem('highScores', JSON.stringify(existing));
       location.href = 'highscores.html';
     });
@@ -154,5 +159,3 @@ $(document).ready(function() {
     userSuccess.text('Correct!').delay(300).fadeOut();
   }
 });
-
-// negative score doesn't save as negative.....
