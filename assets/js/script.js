@@ -3,6 +3,8 @@ var questionNum = 0;
 var highScores = {};
 
 $(document).ready(function() {
+  startQuiz();
+
   function countdownTimer() {
     let seconds = questions.length * 15;
 
@@ -25,13 +27,14 @@ $(document).ready(function() {
     timerInterval();
   }
 
-  // start the quiz by showing the question and hiding intro
-  $('#start-button').on('click', function() {
-    $('#quiz-intro').hide();
-    countdownTimer();
-    chooseAnswer();
-    displayQuestion();
-  });
+  function startQuiz() {
+    $('#start-button').on('click', function() {
+      $('#quiz-intro').hide();
+      countdownTimer();
+      chooseAnswer();
+      displayQuestion();
+    });
+  }
 
   // displays the question by changing the title and choices
   function displayQuestion() {
@@ -50,25 +53,6 @@ $(document).ready(function() {
   }
 
   // allows user to choose answers
-  // $('#question-choices').click(function(event) {
-  //   $('#question-choices').html('');
-  //   let userChoice = event.target.dataset.index;
-  //   var questionAnswer = questions[questionNum].answer;
-
-  //   questionNum++;
-
-  //   if (questionNum === 5) {
-  //     highScorePage();
-  //     return;
-  //   } else if (userChoice === questionAnswer) {
-  //     displayQuestion();
-  //     alert('correct!');
-  //   } else {
-  //     displayQuestion();
-  //     alert('incorrect!');
-  //   }
-  // });
-
   function chooseAnswer() {
     $('#question-choices').click(function(event) {
       $('#question-choices').html('');
@@ -81,16 +65,18 @@ $(document).ready(function() {
         highScorePage($('#timer').data('value'));
       } else if (userChoice === questionAnswer) {
         displayQuestion();
-        alert('correct!');
+        $('#userAnswer').show();
+        correct();
       } else {
-        // wrongAnswer();
         displayQuestion();
-        alert('incorrect!');
+        $('#userAnswer').show();
+        wrong();
       }
     });
   }
 
   function highScorePage(score) {
+    $('#userAnswer').empty();
     $('#question-title').html('<h3>All done!</h3>');
     $('#question-choices').html('');
 
@@ -137,12 +123,25 @@ $(document).ready(function() {
   //   console.log($('#timer').data('value') + ' subtract 10');
   // }
 
-  function clear() {
-    $('#question-title, #question-choices').empty();
+  // function clear() {
+  //   $('#question-title, #question-choices').empty();
+  // }
+
+  function wrong() {
+    $('#userAnswer').text('Wrong!');
+    $('#userAnswer')
+      .delay(500)
+      .fadeOut();
+  }
+
+  function correct() {
+    $('#userAnswer').text('Correct!');
+    $('#userAnswer')
+      .delay(500)
+      .fadeOut();
   }
 });
 
-// show incorrect and correct answers on the bottom and fade out
 // decrease time for incorrect answers
 // fix high score page to be a list, append each accordingly
 // make it look nicer
