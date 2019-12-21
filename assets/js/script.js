@@ -4,23 +4,28 @@ var highScores = {};
 var quizChoices = $('#question-choices');
 var quizTitle = $('#question-title');
 var userSuccess = $('#user-answer');
-var timerScore = $('#timer-container');
+var timerContainer = $('#timer-container');
+var timerScore = timerContainer.data('value');
+var wrongAnswer = 0;
+var deductTime = 0;
 
 $(document).ready(function() {
   startQuiz();
 
   function countdownTimer() {
     let seconds = questions.length * 15;
-
+    
     function timerInterval() {
-      timerScore.html('<b>Time</b>: ' + seconds);
+      seconds = seconds - deductTime;
+      deductTime = 0;
+      timerContainer.html('<b>Time</b>: ' + seconds);
       seconds--;
-      timerScore.attr('data-value', seconds);
+      timerContainer.attr('data-value', seconds);
 
       if (questionNum === 5) {
         clearInterval(timer);
         var timeRemaining = seconds + 1;
-        timerScore.attr('data-value', timeRemaining);
+        timerContainer.attr('data-value', timeRemaining);
       }
       if (seconds < 0) {
         clearInterval(timer);
@@ -69,10 +74,12 @@ $(document).ready(function() {
 
       if (questionNum === 5 && userChoice === questionAnswer) {
         showCorrect();
-        highScorePage(timerScore.data('value'));
+        // highScorePage(timerContainer.data('value'));
+        highScorePage();
       } else if (questionNum === 5 && userChoice !== questionAnswer) {
         showWrong();
-        highScorePage(timerScore.data('value'));
+        // highScorePage(timerContainer.data('value'));
+        highScorePage();
       } else if (userChoice === questionAnswer) {
         displayQuestion();
         userSuccess.show();
@@ -85,7 +92,7 @@ $(document).ready(function() {
     });
   }
 
-  function highScorePage(score) {
+  function highScorePage() {
     userSuccess.show().delay(300).fadeOut();
     quizTitle.html('<h3>All done!</h3>');
     quizChoices.html('');
@@ -97,7 +104,7 @@ $(document).ready(function() {
     });
     let submitButton = $('<button type="submit">').text('Submit');
     let finalScoreInfo = $("<div id='final-score'></div>").html(
-      'Your final score is: <b>' + score + '</b>'
+      'Your final score is: <b>' + timerContainer.data('value') + '</b>'
     );
     submitButton.attr('id', 'high-score-submit');
     submitButton.addClass('btn btn-primary');
@@ -121,9 +128,10 @@ $(document).ready(function() {
       if (submitInitials === '') {
         return;
       }
+      
       let existing = localStorage.getItem('highScores');
       existing = existing ? JSON.parse(existing) : {};
-      existing[submitInitials] = timerScore.data('value');
+      existing[submitInitials] = timerContainer.data('value');
       localStorage.setItem('highScores', JSON.stringify(existing));
       location.href = 'highscores.html';
     });
@@ -138,7 +146,10 @@ $(document).ready(function() {
   // }
 
   function showWrong() {
+    wrongAnswer++;
+    deductTime = wrongAnswer * 10 / wrongAnswer;
     userSuccess.text('Wrong!').delay(300).fadeOut();
+    return deductTime;
   }
 
   function showCorrect() {
@@ -149,4 +160,3 @@ $(document).ready(function() {
 // decrease time for incorrect answers
 // fix high score page to be a list, append each accordingly
 // make it look nicer
-// clean up code
