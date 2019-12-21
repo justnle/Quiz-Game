@@ -1,6 +1,10 @@
 // variables
 var questionNum = 0;
 var highScores = {};
+var quizChoices = $('#question-choices');
+var quizTitle = $('#question-title');
+var userSuccess = $('#user-answer');
+var timerScore = $('#timer-container');
 
 $(document).ready(function() {
   startQuiz();
@@ -9,14 +13,14 @@ $(document).ready(function() {
     let seconds = questions.length * 15;
 
     function timerInterval() {
-      $('#timer-container').html('<b>Time</b>: ' + seconds);
+      timerScore.html('<b>Time</b>: ' + seconds);
       seconds--;
-      $('#timer-container').attr('data-value', seconds);
+      timerScore.attr('data-value', seconds);
 
       if (questionNum === 5) {
         clearInterval(timer);
         var timeRemaining = seconds + 1;
-        $('#timer-container').attr('data-value', timeRemaining);
+        timerScore.attr('data-value', timeRemaining);
       }
       if (seconds < 0) {
         clearInterval(timer);
@@ -41,21 +45,21 @@ $(document).ready(function() {
     var questionTitle = questions[questionNum].question;
     var questionChoices = questions[questionNum].choices;
 
-    $('#questions-choices').html('');
-    $('#question-title').html('<h3>' + questionTitle + '</h3>');
+    quizChoices.html('');
+    quizTitle.html('<h3>' + questionTitle + '</h3>');
 
     for (var i = 0; i < questionChoices.length; i++) {
       var choice = questionChoices[i];
       var choiceList = $('<li></li>').text(choice);
       choiceList.attr('data-index', i);
-      $('#question-choices').append(choiceList);
+      quizChoices.append(choiceList);
     }
   }
 
   // allows user to choose answers
   function chooseAnswer() {
-    $('#question-choices').click(function(event) {
-      $('#question-choices').html('');
+    quizChoices.click(function(event) {
+      quizChoices.html('');
       let userChoice = event.target.dataset.index;
       var questionAnswer = questions[questionNum].answer;
 
@@ -63,26 +67,26 @@ $(document).ready(function() {
 
       if (questionNum === 5 && userChoice === questionAnswer) {
         showCorrect();
-        highScorePage($('#timer-container').data('value'));
+        highScorePage(timerScore.data('value'));
       } else if (questionNum === 5 && userChoice !== questionAnswer) {
         showWrong();
-        highScorePage($('#timer-container').data('value'));
+        highScorePage(timerScore.data('value'));
       } else if (userChoice === questionAnswer) {
         displayQuestion();
-        $('#userAnswer').show();
+        userSuccess.show();
         showCorrect();
       } else {
         displayQuestion();
-        $('#userAnswer').show();
+        userSuccess.show();
         showWrong();
       }
     });
   }
 
   function highScorePage(score) {
-    // $('#userAnswer').empty();
-    $('#question-title').html('<h3>All done!</h3>');
-    $('#question-choices').html('');
+    userSuccess.show();
+    quizTitle.html('<h3>All done!</h3>');
+    quizChoices.html('');
 
     let initialsLabel = $('<label>').text('Enter Initials:');
     let initialsInput = $('<input type="name">').attr({
@@ -117,7 +121,7 @@ $(document).ready(function() {
       }
       let existing = localStorage.getItem('highScores');
       existing = existing ? JSON.parse(existing) : {};
-      existing[submitInitials] = $('#timer-container').data('value');
+      existing[submitInitials] = timerScore.data('value');
       localStorage.setItem('highScores', JSON.stringify(existing));
       location.href = 'highscores.html';
     });
@@ -132,11 +136,11 @@ $(document).ready(function() {
   // }
 
   function showWrong() {
-    $('#userAnswer').text('Wrong!').delay(300).fadeOut();
+    userSuccess.text('Wrong!').delay(300).fadeOut();
   }
 
   function showCorrect() {
-    $('#userAnswer').text('Correct!').delay(300).fadeOut();
+    userSuccess.text('Correct!').delay(300).fadeOut();
   }
 });
 
@@ -144,4 +148,3 @@ $(document).ready(function() {
 // fix high score page to be a list, append each accordingly
 // make it look nicer
 // clean up code
-// make userAnswer display on high score page
