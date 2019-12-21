@@ -5,3 +5,9 @@
 #high-score-name {
     margin: 0 10px;
 }
+
+#userAnswer {
+    border-top: 1px solid lightgray;
+    color: gray;
+    font-style: italic;
+}
