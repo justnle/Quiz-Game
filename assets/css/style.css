@@ -1,3 +1,8 @@
+html {
+    min-height: 100%;
+    position: relative;
+}
+
 #final-score {
     padding-bottom: 10px;
 }
@@ -10,4 +15,10 @@
     border-top: 1px solid lightgray;
     color: gray;
     font-style: italic;
+}
+
+.sticky-footer {
+    bottom: 0px;
+    position: absolute;
+    width: 100%;
 }
