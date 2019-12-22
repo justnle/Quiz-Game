@@ -7,12 +7,17 @@ var timerContainer = $('#timer-container');
 var wrongAnswer = 0;
 var deductTime = 0;
 var timerScore = 0;
+var quizLength;
+var seconds;
 
 $(document).ready(function() {
+  quizLength = questions.length;
+  
   startQuiz();
-
+  
   function countdownTimer() {
-    let seconds = questions.length * 15;
+    // seconds = quizLength * 15;
+    seconds = 50;
     
     function timerInterval() {
       seconds = seconds - deductTime;
@@ -21,22 +26,35 @@ $(document).ready(function() {
       seconds--;
       timerContainer.attr('data-value', seconds + 1);
 
-      if (questionNum === 5) {
+      if (questionNum === quizLength) {
         clearInterval(timer);
-        var timeRemaining = seconds + 1;
-        timerContainer.attr('data-value', timeRemaining);
+        console.log('testing 1');
+        return;
       }
-      if (seconds < 0 && questionNum < 5) {
+      if (questionNum === quizLength && seconds < 0) {
+        seconds = 0;
         clearInterval(timer);
+        timerContainer.attr('data-value', seconds);
+        timerContainer.html('<b>Time</b>: ' + seconds);
+        return seconds;
+      } 
+      if (seconds < 0 && questionNum < quizLength) {
+        console.log('culprit 2');
+        clearInterval(timer);
+        seconds = 0;
         timerContainer.html('<b>Time</b>: 0');
-        highScorePage(0);
+        highScorePage(seconds);
+        return seconds;
       }
       if (seconds < 0) {
+        console.log('culprit 3');
+        seconds = 0;
         clearInterval(timer);
         timerContainer.html('<b>Time</b>: 0');
+        return seconds;
       }
     }
-    let timer = setInterval(timerInterval, 1000);
+    var timer = setInterval(timerInterval, 1000);
     timerInterval();
   }
 
@@ -70,32 +88,40 @@ $(document).ready(function() {
   function chooseAnswer() {
     quizChoices.click(function(event) {
       quizChoices.html('');
-      let userChoice = event.target.dataset.index;
+      var userChoice = event.target.dataset.index;
       var questionAnswer = questions[questionNum].answer;
 
       questionNum++;
 
-      if (questionNum === 5 && userChoice === questionAnswer) {
-        timerScore = timerContainer.data('value');
+      if (questionNum === quizLength && userChoice === questionAnswer) {
+        timerContainer.html('<b>Time</b>: ' + seconds);
+        console.log('not this one');
         showCorrect();
-        highScorePage(timerScore);
-        return timerScore;
-      } else if (questionNum === 5 && userChoice !== questionAnswer && $('#timer-container').data('value') -11 < 0) {
-        $('#timer-container').attr('data-value', 0);
-        timerScore = timerContainer.data('value');
+        highScorePage(seconds);
+        return seconds;
+      } else if (questionNum === quizLength && userChoice !== questionAnswer && $('#timer-container').data('value') -11 < 0) {
+        seconds = 0;
+        
+        $('#timer-container').attr('data-value', seconds);
+        // timerScore = 0;
         showWrong();
-        highScorePage(0);
-        return timerScore;
-      } else if (questionNum === 5 && userChoice !== questionAnswer) {
-        timerScore = timerContainer.data('value') - 11;
+        highScorePage(seconds);
+        timerContainer.html('<b>Time</b>: ' + 0);
+        console.log('FIX THIS ISSUE!!!!!');
+        return seconds;
+      } else if (questionNum === quizLength && userChoice !== questionAnswer) {
+        // idk wtf this case is.. last question and wrong answer..
+        // timerScore = timerContainer.data('value') - 10;
         showWrong();
-        highScorePage(timerScore);
-        return timerScore;
+        highScorePage(seconds);
+        console.log('am i doing this right');
+        return seconds;
       } else if (userChoice === questionAnswer) {
         displayQuestion();
         userSuccess.show();
         showCorrect();
       } else {
+        console.log('doubt I am here');
         displayQuestion();
         userSuccess.show();
         showWrong();
@@ -108,13 +134,13 @@ $(document).ready(function() {
     quizTitle.html('<h3>All done!</h3>');
     quizChoices.html('');
 
-    let initialsLabel = $('<label>').text('Enter Initials:');
-    let initialsInput = $('<input type="name">').attr({
+    var initialsLabel = $('<label>').text('Enter Initials:');
+    var initialsInput = $('<input type="name">').attr({
       id: 'high-score-name',
       class: 'form-control'
     });
-    let submitButton = $('<button type="submit">').text('Submit');
-    let finalScoreInfo = $("<div id='final-score'></div>").html(
+    var submitButton = $('<button type="submit">').text('Submit');
+    var finalScoreInfo = $("<div id='final-score'></div>").html(
       'Your final score is: <b>' + score + '</b>'
     );
     submitButton.attr('id', 'high-score-submit');
@@ -125,10 +151,10 @@ $(document).ready(function() {
     $('#high-score-info').append(initialsInput);
     $('#high-score-info').append(submitButton);
 
-    submitHighScore();
+    submitHighScore(score);
   }
 
-  function submitHighScore() {
+  function submitHighScore(submitScore) {
     $('#high-score-submit').on('click', function(event) {
       event.preventDefault();
 
@@ -140,9 +166,9 @@ $(document).ready(function() {
         return;
       }
       
-      let existing = localStorage.getItem('highScores');
+      var existing = localStorage.getItem('highScores');
       existing = existing ? JSON.parse(existing) : {};
-      existing[submitInitials] = timerScore;
+      existing[submitInitials] = submitScore;
       localStorage.setItem('highScores', JSON.stringify(existing));
       location.href = 'highscores.html';
     });
@@ -159,3 +185,8 @@ $(document).ready(function() {
     userSuccess.text('Correct!').delay(300).fadeOut();
   }
 });
+
+// DRY THIS CODE OUT!!!!!!!!!!!!!!
+// make <b>Time:</b> part of the HTML right away, then modify the HTML with jquery to represent the time remaining
+
+// fix footer overlapping...
