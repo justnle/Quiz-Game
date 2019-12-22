@@ -89,7 +89,7 @@ $(document).ready(function() {
   function highScorePage(score) {
     userSuccess
       .show()
-      .delay(300)
+      .delay(500)
       .fadeOut();
     quizTitle.html('<h3>All done!</h3>');
     quizChoices.html('');
@@ -139,7 +139,7 @@ $(document).ready(function() {
     userSuccess.show();
     userSuccess
       .text('Wrong!')
-      .delay(300)
+      .delay(500)
       .fadeOut();
   }
 
@@ -147,7 +147,7 @@ $(document).ready(function() {
     userSuccess.show();
     userSuccess
       .text('Correct!')
-      .delay(300)
+      .delay(500)
       .fadeOut();
   }
 });
