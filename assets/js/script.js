@@ -19,16 +19,19 @@ $(document).ready(function() {
       timerContainer.html('<b>Time</b>: ' + seconds);
       seconds--;
 
-      if (questionNum === quizLength) {
-        clearInterval(timer);
-        return seconds;
-      } else if (seconds < 0) {
+      if (seconds < 0) {
         seconds = 0;
         timerContainer.html('<b>Time</b>: ' + seconds);
         clearInterval(timer);
         highScorePage(seconds);
         return seconds;
       }
+
+      if (questionNum === quizLength) {
+        clearInterval(timer);
+        return seconds;
+      }
+
     }
     var timer = setInterval(timerInterval, 1000);
     timerInterval();
@@ -77,8 +80,7 @@ $(document).ready(function() {
         showWrong();
       }
 
-      if (questionNum === quizLength) {
-        console.log('second');
+      if (questionNum === quizLength && seconds > 0) {
         highScorePage(seconds);
       } else {
         displayQuestion();
