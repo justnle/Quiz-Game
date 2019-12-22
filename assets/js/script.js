@@ -26,33 +26,41 @@ $(document).ready(function() {
       seconds--;
       timerContainer.attr('data-value', seconds + 1);
 
+      // case 1: when quizNum = quizLength, clear interval, show highscorepage with seconds as score
+      // case 2: when quizNum != quizLength & seconds <= 0, show highscorepage with 0 score (ran out of time in userAnswer):
+      // case 3: when quizNum = quizLength, & seconds < 0, show highscorepage with 0 score
+
       if (questionNum === quizLength) {
         clearInterval(timer);
-        console.log('testing 1');
+        highScorePage(seconds);
         return;
       }
-      if (questionNum === quizLength && seconds < 0) {
-        seconds = 0;
-        clearInterval(timer);
-        timerContainer.attr('data-value', seconds);
-        timerContainer.html('<b>Time</b>: ' + seconds);
-        return seconds;
-      } 
-      if (seconds < 0 && questionNum < quizLength) {
-        console.log('culprit 2');
-        clearInterval(timer);
-        seconds = 0;
-        timerContainer.html('<b>Time</b>: 0');
-        highScorePage(seconds);
-        return seconds;
-      }
-      if (seconds < 0) {
-        console.log('culprit 3');
-        seconds = 0;
-        clearInterval(timer);
-        timerContainer.html('<b>Time</b>: 0');
-        return seconds;
-      }
+      // if (questionNum === quizLength && seconds < 0) {
+      //   seconds = 0;
+      //   clearInterval(timer);
+      //   timerContainer.attr('data-value', seconds);
+      //   timerContainer.html('<b>Time</b>: ' + seconds);
+      //   return seconds;
+      // } 
+      // if (seconds < 0 && questionNum < quizLength) {
+      //   console.log('culprit 2');
+      //   clearInterval(timer);
+      //   seconds = 0;
+      //   timerContainer.html('<b>Time</b>: 0');
+      //   highScorePage(seconds);
+      //   return seconds;
+      // }
+      // if (seconds < 0) {
+      //   console.log('culprit 3');
+      //   seconds = 0;
+      //   clearInterval(timer);
+      //   timerContainer.html('<b>Time</b>: 0');
+      //   return seconds;
+      // }
+
+      // if (quizNum !== quizLength && seconds <= 0) {
+      //   clearInterval(timer);
+      // }
     }
     var timer = setInterval(timerInterval, 1000);
     timerInterval();
@@ -93,39 +101,57 @@ $(document).ready(function() {
 
       questionNum++;
 
-      if (questionNum === quizLength && userChoice === questionAnswer) {
-        timerContainer.html('<b>Time</b>: ' + seconds);
-        console.log('not this one');
+      // do this while questionNum != quizLength
+      // case 1: if userchoice = useranswer display correct, show next
+      // case 2: if userchoice != useranswer display incorrect, show next
+
+      if (userChoice === questionAnswer) {
         showCorrect();
-        highScorePage(seconds);
-        return seconds;
-      } else if (questionNum === quizLength && userChoice !== questionAnswer && $('#timer-container').data('value') -11 < 0) {
-        seconds = 0;
-        
-        $('#timer-container').attr('data-value', seconds);
-        // timerScore = 0;
-        showWrong();
-        highScorePage(seconds);
-        timerContainer.html('<b>Time</b>: ' + 0);
-        console.log('FIX THIS ISSUE!!!!!');
-        return seconds;
-      } else if (questionNum === quizLength && userChoice !== questionAnswer) {
-        // idk wtf this case is.. last question and wrong answer..
-        // timerScore = timerContainer.data('value') - 10;
-        showWrong();
-        highScorePage(seconds);
-        console.log('am i doing this right');
-        return seconds;
-      } else if (userChoice === questionAnswer) {
         displayQuestion();
-        userSuccess.show();
-        showCorrect();
       } else {
-        console.log('doubt I am here');
-        displayQuestion();
-        userSuccess.show();
         showWrong();
+        displayQuestion();
       }
+
+      if (questionNum === quizLength) {
+        console.log(questionNum);
+        console.log(quizLength);
+        highScorePage(seconds);
+      }
+
+      // if (questionNum === quizLength && userChoice === questionAnswer) {
+      //   timerContainer.html('<b>Time</b>: ' + seconds);
+      //   console.log('not this one');
+      //   showCorrect();
+      //   highScorePage(seconds);
+      //   return seconds;
+      // } else if (questionNum === quizLength && userChoice !== questionAnswer && $('#timer-container').data('value') -11 < 0) {
+      //   seconds = 0;
+        
+      //   $('#timer-container').attr('data-value', seconds);
+      //   // timerScore = 0;
+      //   showWrong();
+      //   highScorePage(seconds);
+      //   timerContainer.html('<b>Time</b>: ' + 0);
+      //   console.log('FIX THIS ISSUE!!!!!');
+      //   return seconds;
+      // } else if (questionNum === quizLength && userChoice !== questionAnswer) {
+      //   // idk wtf this case is.. last question and wrong answer..
+      //   // timerScore = timerContainer.data('value') - 10;
+      //   showWrong();
+      //   highScorePage(seconds);
+      //   console.log('am i doing this right');
+      //   return seconds;
+      // } else if (userChoice === questionAnswer) {
+      //   displayQuestion();
+      //   userSuccess.show();
+      //   showCorrect();
+      // } else {
+      //   console.log('doubt I am here');
+      //   displayQuestion();
+      //   userSuccess.show();
+      //   showWrong();
+      // }
     });
   }
 
