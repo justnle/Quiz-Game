@@ -1,7 +1,7 @@
 # Hip-Hop/Rap Culture Quiz
 This is an interactive quiz page that utilizes jQuery to manipulate the DOM, which was learned during Week 5 of the UW Coding Boot Camp. This quiz is a brief glimpse into the polarizing culture of the Hip-Hop/Rap genre, which I grew up listening to, and this assignment really challenged my knowledge of JavaScript.
 
-[Hip-Hop/Rap Quiz](https://twopcz.github.io/HW-4/)
+[Hip-Hop/Rap Quiz Page](https://twopcz.github.io/HW-4/)
 
 ![quiz-pic](https://github.com/twopcz/HW-4/blob/master/assets/images/quiz.png?raw=true)
 
