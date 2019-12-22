@@ -12,13 +12,13 @@ var seconds;
 
 $(document).ready(function() {
   quizLength = questions.length;
-  
+
   startQuiz();
-  
+
   function countdownTimer() {
     // seconds = quizLength * 15;
     seconds = 50;
-    
+
     function timerInterval() {
       seconds = seconds - deductTime;
       deductTime = 0;
@@ -32,7 +32,6 @@ $(document).ready(function() {
 
       if (questionNum === quizLength) {
         clearInterval(timer);
-        highScorePage(seconds);
         return;
       }
       // if (questionNum === quizLength && seconds < 0) {
@@ -41,7 +40,7 @@ $(document).ready(function() {
       //   timerContainer.attr('data-value', seconds);
       //   timerContainer.html('<b>Time</b>: ' + seconds);
       //   return seconds;
-      // } 
+      // }
       // if (seconds < 0 && questionNum < quizLength) {
       //   console.log('culprit 2');
       //   clearInterval(timer);
@@ -77,18 +76,22 @@ $(document).ready(function() {
 
   // displays the question by changing the title and choices
   function displayQuestion() {
-    var questionTitle = questions[questionNum].question;
-    var questionChoices = questions[questionNum].choices;
+    if (questionNum < quizLength) {
+      var questionTitle = questions[questionNum].question;
+      var questionChoices = questions[questionNum].choices;
 
-    quizChoices.html('');
-    quizTitle.html('<h3>' + questionTitle + '</h3>');
+      quizChoices.html('');
+      quizTitle.html('<h3>' + questionTitle + '</h3>');
 
-    for (var i = 0; i < questionChoices.length; i++) {
-      var choice = questionChoices[i];
-      var choiceList = $('<li></li>').text(choice);
-      choiceList.addClass('list-group-item list-group-item-action list-group-item-dark');
-      choiceList.attr('data-index', i);
-      quizChoices.append(choiceList);
+      for (var i = 0; i < questionChoices.length; i++) {
+        var choice = questionChoices[i];
+        var choiceList = $('<li></li>').text(choice);
+        choiceList.addClass(
+          'list-group-item list-group-item-action list-group-item-dark'
+        );
+        choiceList.attr('data-index', i);
+        quizChoices.append(choiceList);
+      }
     }
   }
 
@@ -114,8 +117,6 @@ $(document).ready(function() {
       }
 
       if (questionNum === quizLength) {
-        console.log(questionNum);
-        console.log(quizLength);
         highScorePage(seconds);
       }
 
@@ -127,7 +128,7 @@ $(document).ready(function() {
       //   return seconds;
       // } else if (questionNum === quizLength && userChoice !== questionAnswer && $('#timer-container').data('value') -11 < 0) {
       //   seconds = 0;
-        
+
       //   $('#timer-container').attr('data-value', seconds);
       //   // timerScore = 0;
       //   showWrong();
@@ -156,7 +157,10 @@ $(document).ready(function() {
   }
 
   function highScorePage(score) {
-    userSuccess.show().delay(300).fadeOut();
+    userSuccess
+      .show()
+      .delay(300)
+      .fadeOut();
     quizTitle.html('<h3>All done!</h3>');
     quizChoices.html('');
 
@@ -191,7 +195,7 @@ $(document).ready(function() {
       if (submitInitials === '') {
         return;
       }
-      
+
       var existing = localStorage.getItem('highScores');
       existing = existing ? JSON.parse(existing) : {};
       existing[submitInitials] = submitScore;
@@ -202,13 +206,19 @@ $(document).ready(function() {
 
   function showWrong() {
     wrongAnswer++;
-    deductTime = wrongAnswer * 10 / wrongAnswer;
-    userSuccess.text('Wrong!').delay(300).fadeOut();
+    deductTime = (wrongAnswer * 10) / wrongAnswer;
+    userSuccess
+      .text('Wrong!')
+      .delay(300)
+      .fadeOut();
     return deductTime;
   }
 
   function showCorrect() {
-    userSuccess.text('Correct!').delay(300).fadeOut();
+    userSuccess
+      .text('Correct!')
+      .delay(300)
+      .fadeOut();
   }
 });
 
