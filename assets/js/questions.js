@@ -49,7 +49,7 @@ var questions = [
     },
 
     {
-        question: 'Who is the most sold Hip-Hop artist of all time, as of 2019?',
+        question: 'Who is the best selling Hip-Hop artist of all time?',
         choices: ['Kanye West', 'Eminem', 'Drake', '2Pac'],
         answer: '1'
     },
