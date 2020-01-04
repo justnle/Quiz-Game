@@ -10,7 +10,7 @@ The landing page gives a brief description of the rules and quiz contents. The u
 
 # References
 [https://jquery.com/](https://jquery.com/) - jQuery CDN and documentation about usage. <br>
-[https://getbootstrap.com/](https://getbootstrap.com/) - for Bootstrap.
-[https://stackoverflow.com/](https://stackoverflow.com/) - a plethora of answers for the many questions I had when tackling this homework.
+[https://getbootstrap.com/](https://getbootstrap.com/) - for Bootstrap. <br>
+[https://stackoverflow.com/](https://stackoverflow.com/) - a plethora of answers for the many questions I had when tackling this homework. <br>
 [https://gomakethings.com/](https://gomakethings.com/) - a vanilla JavaScript resource. <br>
 [https://www.w3schools.com/](https://www.w3schools.com/) - for everything else!
